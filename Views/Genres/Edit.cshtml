@@ -1,0 +1,28 @@
+﻿@model WebXemPhim.Models.Genre
+@{
+    ViewBag.Title = "Sửa thể loại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>✏️ Sửa thể loại</h2>
+
+    <!-- Thông báo lỗi -->
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    @using (Html.BeginForm("Edit", "Genres", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.GenreId)
+
+        <div class="mb-3">
+            <label for="GenreName">Tên thể loại</label>
+            @Html.TextBoxFor(m => m.GenreName, new { @class = "form-control", placeholder = "Nhập tên thể loại" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">💾 Cập nhật</button>
+        <a href="@Url.Action("Index", "Genres")" class="btn btn-secondary">↩️ Hủy</a>
+    }
+</div>

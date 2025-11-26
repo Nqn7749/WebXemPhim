@@ -1,0 +1,53 @@
+﻿@model List<WebXemPhim.Models.Episode>
+@{
+    ViewBag.Title = "Danh sách tập phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>📺 Tập phim của: @ViewBag.MovieTitle</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <a href="@Url.Action("Create", "Episodes", new { movieId = ViewBag.MovieId })" class="btn btn-success mb-3">➕ Thêm tập mới</a>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tập</th>
+                    <th>Tiêu đề</th>
+                    <th>Thời lượng (giây)</th>
+                    <th>Link phim</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ep in Model)
+                {
+                    <tr>
+                        <td>@ep.EpisodeNumber</td>
+                        <td>@ep.Title</td>
+                        <td>@ep.Duration</td>
+                        <td>
+                            <a href="@ep.VideoUrl" target="_blank">▶️ Xem</a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Episodes", new { id = ep.EpisodeId })" class="btn btn-sm btn-warning me-1">✏️ Sửa</a>
+                            <a href="@Url.Action("Delete", "Episodes", new { id = ep.EpisodeId })" class="btn btn-sm btn-danger">🗑️ Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">📭 Chưa có tập nào được thêm.</div>
+    }
+</div>
+

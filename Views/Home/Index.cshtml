@@ -1,0 +1,25 @@
+﻿@model List<WebXemPhim.Models.Movie>
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-5">🎬 Phim mới cập nhật</h2>
+    <div class="row">
+        @foreach (var phim in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="@phim.PosterUrl" class="card-img-top" alt="@phim.Title" style="height:300px;object-fit:cover;" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@phim.Title (@phim.ReleaseYear)</h5>
+                        <p class="card-text text-muted">@phim.Country</p>
+                        <a href="@Url.Action("Details", "Movie", new { id = phim.MovieId })" class="btn btn-sm btn-primary mt-auto">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,93 @@
+﻿@model WebXemPhim.Models.User
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>👤 Thông tin tài khoản</h2>
+
+    <dl class="row">
+        <dt class="col-sm-3">Tên đăng nhập</dt>
+        <dd class="col-sm-9">@Model.FullName</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+
+        <dt class="col-sm-3">Họ tên</dt>
+        <dd class="col-sm-9">@Model.FullName</dd>
+
+        <dt class="col-sm-3">Vai trò</dt>
+        <dd class="col-sm-9">@Model.Role</dd>
+    </dl>
+
+    <!-- Nút mở modal -->
+    <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editProfileModal">✏️ Sửa thông tin</a>
+    <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">🔑 Đổi mật khẩu</a>
+</div>
+
+<!-- Modal chỉnh sửa thông tin -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("EditProfile", "Account", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileLabel">✏️ Sửa thông tin tài khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Hidden để giữ UserName -->
+                    @Html.HiddenFor(m => m.UserId)
+
+                    <div class="mb-3">
+                        <label>Email</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    </div>
+                    <div class="mb-3">
+                        <label>Họ tên</label>
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">💾 Lưu</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">↩️ Hủy</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal đổi mật khẩu -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordLabel">🔑 Đổi mật khẩu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Mật khẩu hiện tại</label>
+                        <input type="password" name="CurrentPassword" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Mật khẩu mới</label>
+                        <input type="password" name="NewPassword" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Xác nhận mật khẩu mới</label>
+                        <input type="password" name="ConfirmPassword" class="form-control" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">💾 Đổi mật khẩu</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">↩️ Hủy</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

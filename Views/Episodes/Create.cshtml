@@ -1,0 +1,43 @@
+﻿@model WebXemPhim.Models.Episode
+@{
+    ViewBag.Title = "Thêm tập phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>➕ Thêm tập cho: @ViewBag.MovieTitle</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    @using (Html.BeginForm("Create", "Episodes", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.MovieId)
+
+        <div class="mb-3">
+            <label>Số tập</label>
+            @Html.TextBoxFor(m => m.EpisodeNumber, new { @class = "form-control", type = "number" })
+        </div>
+
+        <div class="mb-3">
+            <label>Tiêu đề tập</label>
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label>Video URL</label>
+            @Html.TextBoxFor(m => m.VideoUrl, new { @class = "form-control", placeholder = "Link Google Drive hoặc YouTube..." })
+        </div>
+
+        <div class="mb-3">
+            <label>Thời lượng (giây)</label>
+            @Html.TextBoxFor(m => m.Duration, new { @class = "form-control", type = "number" })
+        </div>
+
+        <button type="submit" class="btn btn-success">💾 Lưu</button>
+        <a href="@Url.Action("Index", "Episodes", new { movieId = Model.MovieId })" class="btn btn-secondary">↩️ Hủy</a>
+    }
+</div>
+

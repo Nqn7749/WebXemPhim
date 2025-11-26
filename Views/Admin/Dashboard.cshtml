@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Trang quản trị";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">👑 Quản trị hệ thống</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body bg-primary text-white text-center">
+                    <h5 class="card-title">Tổng số phim</h5>
+                    <h3>@ViewBag.TotalMovies</h3>
+                    <a href="@Url.Action("Index", "Movies")" class="btn btn-light btn-sm mt-3">Quản lý phim</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body bg-success text-white text-center">
+                    <h5 class="card-title">Tổng số người dùng</h5>
+                    <h3>@ViewBag.TotalUsers</h3>
+                    <a href="@Url.Action("Index", "Users")" class="btn btn-light btn-sm mt-3">Quản lý người dùng</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body bg-warning text-dark text-center">
+                    <h5 class="card-title">Tổng số thể loại</h5>
+                    <h3>@ViewBag.TotalGenres</h3>
+                    <a href="@Url.Action("Index", "Genres")" class="btn btn-dark btn-sm mt-3">Xem thể loại</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body bg-warning text-dark text-center">
+                    <h5 class="card-title">Tổng số đánh giá</h5>
+                    <h3>@ViewBag.TotalRatings</h3>
+                    <a href="@Url.Action("Index", "Reports")" class="btn btn-dark btn-sm mt-3">Xem báo cáo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

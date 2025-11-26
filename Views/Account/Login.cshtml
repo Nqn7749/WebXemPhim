@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+    <h3 class="text-center mb-4">🔐 Đăng nhập</h3>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        <div class="form-group mb-3">
+            <label>Email</label>
+            @Html.TextBox("email", null, new { @class = "form-control", placeholder = "Nhập email" })
+        </div>
+        <div class="form-group mb-3">
+            <label>Mật khẩu</label>
+            @Html.Password("password", new { @class = "form-control", placeholder = "Nhập mật khẩu" })
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+    }
+</div>

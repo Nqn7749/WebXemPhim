@@ -1,0 +1,24 @@
+﻿@model WebXemPhim.Models.Episode
+@{
+    ViewBag.Title = "Xóa tập phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>🗑️ Xóa tập phim</h2>
+
+    <div class="alert alert-warning">
+        <strong>Cảnh báo!</strong> Bạn sắp xóa tập <strong>@Model.EpisodeNumber - @Model.Title</strong> của phim <strong>@ViewBag.MovieTitle</strong>.
+        Hành động này không thể hoàn tác.
+    </div>
+
+    @using (Html.BeginForm("Delete", "Episodes", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.EpisodeId)
+        @Html.HiddenFor(m => m.MovieId)
+
+        <button type="submit" class="btn btn-danger me-2">🗑️ Xóa</button>
+        <a href="@Url.Action("Index", "Episodes", new { movieId = Model.MovieId })" class="btn btn-secondary">↩️ Hủy</a>
+    }
+</div>
+

@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Thống kê báo cáo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var topMovies = ViewBag.TopMovies;
+}
+
+<div class="container mt-4">
+    <h2>📊 Thống kê báo cáo</h2>
+    <h4>Top 5 phim được đánh giá cao nhất</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr><th>MovieId</th><th>Điểm trung bình</th><th>Số lượt đánh giá</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var m in topMovies)
+            {
+                <tr>
+                    <td>@m.MovieId</td>
+                    <td>@m.AvgRating</td>
+                    <td>@m.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,22 @@
+﻿@model WebXemPhim.Models.Movie
+@{
+    ViewBag.Title = "Xóa phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>🗑️ Xóa phim</h2>
+
+    <div class="alert alert-warning">
+        <strong>Cảnh báo!</strong> Hành động này sẽ xóa vĩnh viễn phim
+        <strong>@Model.Title</strong>. Bạn có chắc chắn muốn tiếp tục?
+    </div>
+
+    @using (Html.BeginForm("Delete", "Movies", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.MovieId)
+
+        <button type="submit" class="btn btn-danger me-2">🗑️ Xóa</button>
+        <a href="@Url.Action("Index", "Movies")" class="btn btn-secondary">↩️ Hủy</a>
+    }
+</div>

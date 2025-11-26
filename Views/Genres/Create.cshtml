@@ -1,0 +1,25 @@
+﻿@model WebXemPhim.Models.Genre
+@{
+    ViewBag.Title = "Thêm thể loại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>➕ Thêm thể loại</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    @using (Html.BeginForm("Create", "Genres", FormMethod.Post))
+    {
+        <div class="mb-3">
+            <label for="GenreName">Tên thể loại</label>
+            @Html.TextBoxFor(m => m.GenreName, new { @class = "form-control", placeholder = "Nhập tên thể loại" })
+        </div>
+
+        <button type="submit" class="btn btn-success">Lưu</button>
+        <a href="@Url.Action("Index", "Genres")" class="btn btn-secondary">Hủy</a>
+    }
+</div>

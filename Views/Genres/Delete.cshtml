@@ -1,0 +1,24 @@
+﻿@model WebXemPhim.Models.Genre
+@{
+    ViewBag.Title = "Xóa thể loại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>🗑️ Xóa thể loại</h2>
+
+    <div class="alert alert-warning">
+        <strong>Cảnh báo!</strong> Hành động này sẽ xóa vĩnh viễn thể loại
+        <strong>@Model.GenreName</strong>. Bạn có chắc chắn muốn tiếp tục?
+    </div>
+
+    @using (Html.BeginForm("Delete", "Genres", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.GenreId)
+
+        <button type="submit" class="btn btn-danger me-2">
+            🗑️ Xóa
+        </button>
+        <a href="@Url.Action("Index", "Genres")" class="btn btn-secondary">↩️ Hủy</a>
+    }
+</div>

@@ -1,0 +1,75 @@
+﻿@model WebXemPhim.Models.Movie
+@{
+    ViewBag.Title = "Chi tiết phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>@Model.Title (@Model.ReleaseYear)</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.PosterUrl" alt="Poster" class="img-fluid rounded" />
+        </div>
+        <div class="col-md-8">
+            <p><strong>Quốc gia:</strong> @Model.Country</p>
+            <p><strong>Mô tả:</strong> @Model.Description</p>
+            <p><strong>Loại phim:</strong> @(Model.IsSeries == true ? "📺 Phim bộ" : "🎬 Phim lẻ")</p>
+        </div>
+    </div>
+
+    <hr />
+
+    @if (Model.IsSeries == true)
+    {
+        <h4>📺 Danh sách tập phim</h4>
+
+        var episodes = ViewBag.Episodes as List<WebXemPhim.Models.Episode>;
+        if (episodes != null && episodes.Any())
+        {
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tập</th>
+                        <th>Tiêu đề</th>
+                        <th>Thời lượng</th>
+                        <th>Xem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ep in episodes.OrderBy(e => e.EpisodeNumber))
+                    {
+                        <tr>
+                            <td>@ep.EpisodeNumber</td>
+                            <td>@ep.Title</td>
+                            <td>@ep.Duration giây</td>
+                            <td>
+                                <a href="@ep.VideoUrl" target="_blank" class="btn btn-sm btn-primary">▶️ Xem</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info">📭 Chưa có tập nào được thêm.</div>
+        }
+    }
+    else
+    {
+        <h4>🎬 Xem phim</h4>
+        if (!string.IsNullOrEmpty(Model.MovieUrl))
+        {
+            <video controls width="720" class="mt-2">
+                <source src="@Model.MovieUrl" type="video/mp4" />
+                Trình duyệt không hỗ trợ video.
+            </video>
+        }
+        else
+        {
+            <div class="alert alert-warning">⚠️ Chưa có link phim được nhập.</div>
+        }
+    }
+</div>
+

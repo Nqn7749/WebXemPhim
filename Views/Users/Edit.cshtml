@@ -1,0 +1,39 @@
+﻿
+@model WebXemPhim.Models.User
+@{
+    ViewBag.Title = "Sửa người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>✏️ Sửa người dùng</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.UserId)
+        <div class="mb-3">
+            <label>Họ tên</label>
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+        </div>
+        <div class="mb-3">
+            <label>Email</label>
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+        <div class="mb-3">
+            <label>Mật khẩu</label>
+            @Html.TextBoxFor(m => m.PasswordHash, new { @class = "form-control" })
+        </div>
+        <div class="mb-3">
+            <label>Quyền</label>
+            @Html.DropDownListFor(m => m.Role,
+                new SelectList(new[] { "User", "Admin" }, Model.Role),
+                "-- Chọn quyền --",
+                new { @class = "form-control" })
+        </div>
+        <div class="mb-3">
+            <label>Avatar URL</label>
+            @Html.TextBoxFor(m => m.AvatarUrl, new { @class = "form-control" })
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a href="@Url.Action("Index", "Users")" class="btn btn-secondary">Hủy</a>
+    }
+</div>

@@ -1,0 +1,53 @@
+﻿@model List<WebXemPhim.Models.Genre>
+@{
+    ViewBag.Title = "Quản lý thể loại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>📂 Quản lý thể loại</h2>
+
+    <!-- Thông báo -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <a href="@Url.Action("Create", "Genres")" class="btn btn-success mb-3">➕ Thêm thể loại</a>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width:80px;">ID</th>
+                    <th>Tên thể loại</th>
+                    <th style="width:200px;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var g in Model)
+                {
+                    <tr>
+                        <td>@g.GenreId</td>
+                        <td>@g.GenreName</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Genres", new { id = g.GenreId })"
+                               class="btn btn-sm btn-warning me-1">✏️ Sửa</a>
+                            <a href="@Url.Action("Delete", "Genres", new { id = g.GenreId })"
+                               class="btn btn-sm btn-danger">🗑️ Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">📭 Chưa có thể loại nào được tạo.</div>
+    }
+</div>

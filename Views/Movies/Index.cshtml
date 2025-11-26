@@ -1,0 +1,57 @@
+﻿@model List<WebXemPhim.Models.Movie>
+@{
+    ViewBag.Title = "Quản lý phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>🎬 Quản lý phim</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <a href="@Url.Action("Create", "Movies")" class="btn btn-success mb-3">➕ Thêm phim mới</a>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Tên phim</th>
+                    <th>Năm</th>
+                    <th>Quốc gia</th>
+                    <th>Phim bộ?</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.MovieId</td>
+                        <td>@m.Title</td>
+                        <td>@m.ReleaseYear</td>
+                        <td>@m.Country</td>
+                        <td>@(m.IsSeries == true ? "✅ Có" : "❌ Không")</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Movies", new { id = m.MovieId })" class="btn btn-sm btn-warning me-1">✏️ Sửa</a>
+                            <a href="@Url.Action("Delete", "Movies", new { id = m.MovieId })" class="btn btn-sm btn-danger">🗑️ Xóa</a>
+                            <a href="@Url.Action("Details", "Movies", new { id = m.MovieId })" class="btn btn-sm btn-info">🔍 Chi tiết</a>
+                            @if (m.IsSeries == true)
+                            {
+                                <a href="@Url.Action("Index", "Episodes", new { movieId = m.MovieId })" class="btn btn-sm btn-info">📺 Tập phim</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">📭 Chưa có phim nào được thêm.</div>
+    }
+</div>

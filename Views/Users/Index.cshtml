@@ -1,0 +1,37 @@
+﻿@model List<WebXemPhim.Models.User>
+@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>👥 Quản lý người dùng</h2>
+    <a href="@Url.Action("Create", "Users")" class="btn btn-success mb-3">➕ Thêm người dùng</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>Quyền</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td>@u.UserId</td>
+                    <td>@u.FullName</td>
+                    <td>@u.Email</td>
+                    <td>@u.Role</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Users", new { id = u.UserId })" class="btn btn-sm btn-warning">Sửa</a>
+                        <a href="@Url.Action("Delete", "Users", new { id = u.UserId })" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

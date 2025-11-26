@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MovieStreamingDB" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Comments" Member="Comments">
+    <Type Name="Comment">
+      <Column Name="CommentId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="User_Comment" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="Movy_Comment" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Episodes" Member="Episodes">
+    <Type Name="Episode">
+      <Column Name="EpisodeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EpisodeNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="VideoUrl" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Duration" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Episode_WatchHistory" Member="WatchHistories" ThisKey="EpisodeId" OtherKey="EpisodeId" Type="WatchHistory" />
+      <Association Name="Movy_Episode" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Favorites" Member="Favorites">
+    <Type Name="Favorite">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="User_Favorite" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="Movy_Favorite" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Genres" Member="Genres">
+    <Type Name="Genre">
+      <Column Name="GenreId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GenreName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Genre_MovieGenre" Member="MovieGenres" ThisKey="GenreId" OtherKey="GenreId" Type="MovieGenre" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MovieGenres" Member="MovieGenres">
+    <Type Name="MovieGenre">
+      <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GenreId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Genre_MovieGenre" Member="Genre" ThisKey="GenreId" OtherKey="GenreId" Type="Genre" IsForeignKey="true" />
+      <Association Name="Movy_MovieGenre" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ratings" Member="Ratings">
+    <Type Name="Rating">
+      <Column Name="RatingId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Rating" Member="Rating1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="User_Rating" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="Movy_Rating" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Subscriptions" Member="Subscriptions">
+    <Type Name="Subscription">
+      <Column Name="SubscriptionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlanName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="User_Subscription" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="AvatarUrl" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="User_Comment" Member="Comments" ThisKey="UserId" OtherKey="UserId" Type="Comment" />
+      <Association Name="User_Favorite" Member="Favorites" ThisKey="UserId" OtherKey="UserId" Type="Favorite" />
+      <Association Name="User_Rating" Member="Ratings" ThisKey="UserId" OtherKey="UserId" Type="Rating" />
+      <Association Name="User_Subscription" Member="Subscriptions" ThisKey="UserId" OtherKey="UserId" Type="Subscription" />
+      <Association Name="User_WatchHistory" Member="WatchHistories" ThisKey="UserId" OtherKey="UserId" Type="WatchHistory" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WatchHistory" Member="WatchHistories">
+    <Type Name="WatchHistory">
+      <Column Name="HistoryId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EpisodeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PositionSeconds" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LastWatched" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Episode_WatchHistory" Member="Episode" ThisKey="EpisodeId" OtherKey="EpisodeId" Type="Episode" IsForeignKey="true" />
+      <Association Name="User_WatchHistory" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="Movy_WatchHistory" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Movies" Member="Movies">
+    <Type Name="Movie">
+      <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ReleaseYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="PosterUrl" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="TrailerUrl" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="IsSeries" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MovieUrl" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Movy_Comment" Member="Comments" ThisKey="MovieId" OtherKey="MovieId" Type="Comment" />
+      <Association Name="Movy_Episode" Member="Episodes" ThisKey="MovieId" OtherKey="MovieId" Type="Episode" />
+      <Association Name="Movy_Favorite" Member="Favorites" ThisKey="MovieId" OtherKey="MovieId" Type="Favorite" />
+      <Association Name="Movy_MovieGenre" Member="MovieGenres" ThisKey="MovieId" OtherKey="MovieId" Type="MovieGenre" />
+      <Association Name="Movy_Rating" Member="Ratings" ThisKey="MovieId" OtherKey="MovieId" Type="Rating" />
+      <Association Name="Movy_WatchHistory" Member="WatchHistories" ThisKey="MovieId" OtherKey="MovieId" Type="WatchHistory" />
+    </Type>
+  </Table>
+</Database>

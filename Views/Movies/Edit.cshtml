@@ -1,0 +1,62 @@
+﻿@model WebXemPhim.Models.Movie
+@{
+    ViewBag.Title = "Sửa phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>✏️ Sửa phim</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    @using (Html.BeginForm("Edit", "Movies", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.MovieId)
+
+        <div class="mb-3">
+            <label>Tên phim</label>
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label>Mô tả</label>
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 4 })
+        </div>
+
+        <div class="mb-3">
+            <label>Năm phát hành</label>
+            @Html.TextBoxFor(m => m.ReleaseYear, new { @class = "form-control", type = "number" })
+        </div>
+
+        <div class="mb-3">
+            <label>Quốc gia</label>
+            @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label>Poster URL</label>
+            @Html.TextBoxFor(m => m.PosterUrl, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label>Trailer URL</label>
+            @Html.TextBoxFor(m => m.TrailerUrl, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label>Video URL</label>
+            @Html.TextBoxFor(m => m.MovieUrl, new { @class = "form-control", placeholder = "Nhập link phim (Google Drive, YouTube...)" })
+        </div>
+
+        <div class="form-check mb-3">
+            @Html.CheckBox("IsSeries", Model.IsSeries ?? false, new { @class = "form-check-input" })
+            <label class="form-check-label">Phim bộ?</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">💾 Cập nhật</button>
+        <a href="@Url.Action("Index", "Movies")" class="btn btn-secondary">↩️ Hủy</a>
+    }
+</div>

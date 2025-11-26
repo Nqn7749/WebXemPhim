@@ -1,0 +1,17 @@
+﻿@model WebXemPhim.Models.User
+@{
+    ViewBag.Title = "Xóa người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>🗑️ Xóa người dùng</h2>
+    <p>Bạn có chắc chắn muốn xóa người dùng <strong>@Model.FullName</strong> không?</p>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.UserId)
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a href="@Url.Action("Index", "Users")" class="btn btn-secondary">Hủy</a>
+    }
+</div>
+

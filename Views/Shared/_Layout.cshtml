@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - WebXemPhim</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+            @Html.ActionLink("WebXemPhim", "Index", "Home", null, new { @class = "navbar-brand" })
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- 🔍 Thanh tìm kiếm bên trái -->
+            <form class="d-flex me-3" method="get" action="/Movies/Search">
+                <input class="form-control me-2" type="search" name="query" placeholder="Tìm phim..." aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">🔍</button>
+            </form>
+
+            <!-- 📋 Menu điều hướng -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Movies/Index?isSeries=false">🎬 Phim lẻ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Movies/Index?isSeries=true">📺 Phim bộ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Genres/Index">🎞️ Thể loại</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Countries/Index">🌍 Quốc gia</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    @if (Session["UserName"] != null)
+                    {
+                        <!-- 👤 Dropdown cho người dùng -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                👋 Xin chào, @Session["UserName"]
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "Favorites")">❤️ Yêu thích</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "History")">📜 Lịch sử xem</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("UserProfile", "Account")">👤 Thông tin tài khoản</a></li>
+                                @if (Session["UserRole"]?.ToString() == "Admin")
+                                {
+                                    <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Admin")">⚙️ Quản trị</a></li>
+                                }
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item text-danger" href="@Url.Action("Logout", "Account")">🚪 Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Register", "Account")">Đăng ký</a>
+                        </li>
+                    }
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content mt-4">
+        @RenderBody()
+        <hr />
+        <footer class="text-center text-muted mb-3">
+            <p>&copy; @DateTime.Now.Year - WebXemPhim</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

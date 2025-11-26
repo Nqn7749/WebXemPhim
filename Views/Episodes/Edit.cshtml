@@ -1,0 +1,39 @@
+﻿@model WebXemPhim.Models.Episode
+@{
+    ViewBag.Title = "Sửa tập phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>✏️ Sửa tập của: @ViewBag.MovieTitle</h2>
+
+    @using (Html.BeginForm("Edit", "Episodes", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.EpisodeId)
+        @Html.HiddenFor(m => m.MovieId)
+
+        <div class="mb-3">
+            <label>Số tập</label>
+            @Html.TextBoxFor(m => m.EpisodeNumber, new { @class = "form-control", type = "number" })
+        </div>
+
+        <div class="mb-3">
+            <label>Tiêu đề tập</label>
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label>Video URL</label>
+            @Html.TextBoxFor(m => m.VideoUrl, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label>Thời lượng (giây)</label>
+            @Html.TextBoxFor(m => m.Duration, new { @class = "form-control", type = "number" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">💾 Cập nhật</button>
+        <a href="@Url.Action("Index", "Episodes", new { movieId = Model.MovieId })" class="btn btn-secondary">↩️ Hủy</a>
+    }
+</div>
+
