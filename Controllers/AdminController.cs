@@ -4,17 +4,8 @@ using System.Linq;
 
 namespace WebXemPhim.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        private DataClasses1DataContext db;
-
-        public AdminController()
-        {
-            string connString = System.Configuration.ConfigurationManager
-                .ConnectionStrings["MovieStreamingDBConnectionString"].ConnectionString;
-
-            db = new DataClasses1DataContext(connString);
-        }
 
         // Trang tổng quan quản trị
         public ActionResult Dashboard()

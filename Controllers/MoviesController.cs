@@ -9,17 +9,8 @@ using System.Data.Linq;
 
 namespace WebXemPhim.Controllers
 {
-    public class MoviesController : Controller
+    public class MoviesController : BaseController
     {
-        private DataClasses1DataContext db;
-
-        public MoviesController()
-        {
-            string connString = System.Configuration.ConfigurationManager
-                .ConnectionStrings["MovieStreamingDBConnectionString"].ConnectionString;
-
-            db = new DataClasses1DataContext(connString);
-        }
 
         private bool IsAdmin()
         {

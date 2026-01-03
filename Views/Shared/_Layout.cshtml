@@ -20,7 +20,7 @@
             <!-- 🔍 Thanh tìm kiếm -->
             <form class="d-flex me-3" method="get" action="@Url.Action("Search", "UserMovies")">
                 <input class="form-control me-2" type="search" name="query" placeholder="Tìm phim..." aria-label="Search">
-                <button class="btn btn-outline-light" type="submit">🔍</button>
+                <button class="btn btn-outline-light" type="submit">Tìm</button>
             </form>
 
             <!-- 📋 Menu điều hướng -->
@@ -67,15 +67,15 @@
                                 👋 Xin chào, @Session["UserName"]
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="@Url.Action("Index", "Favorites")">❤️ Yêu thích</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Index", "History")">📜 Lịch sử xem</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("UserProfile", "Account")">👤 Thông tin tài khoản</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "Favorites")"> Yêu thích</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "History")"> Lịch sử xem</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("UserProfile", "Account")"> Thông tin tài khoản</a></li>
                                 @if (Session["UserRole"]?.ToString() == "Admin")
                                 {
-                                    <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Admin")">⚙️ Quản trị</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Admin")"> Quản trị</a></li>
                                 }
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item text-danger" href="@Url.Action("Logout", "Account")">🚪 Đăng xuất</a></li>
+                                <li><a class="dropdown-item text-danger" href="@Url.Action("Logout", "Account")"> Đăng xuất</a></li>
                             </ul>
                         </li>
                     }

@@ -4,17 +4,8 @@ using WebXemPhim.Models;
 
 namespace WebXemPhim.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private DataClasses1DataContext db;
-
-        public AccountController()
-        {
-            string connString = System.Configuration.ConfigurationManager
-                .ConnectionStrings["MovieStreamingDBConnectionString"].ConnectionString;
-
-            db = new DataClasses1DataContext(connString);
-        }
 
 
         // ====================================

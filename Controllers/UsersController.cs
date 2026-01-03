@@ -4,17 +4,8 @@ using WebXemPhim.Models;
 
 namespace WebXemPhim.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
-        private DataClasses1DataContext db;
-
-        public UsersController()
-        {
-            string connString = System.Configuration.ConfigurationManager
-                .ConnectionStrings["MovieStreamingDBConnectionString"].ConnectionString;
-
-            db = new DataClasses1DataContext(connString);
-        }
 
         private bool IsAdmin()
         {
