@@ -3,7 +3,7 @@
     ViewBag.Title = "Chi tiết phim";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<a href="@Url.Action("Index", "Movies")" class="btn btn-secondary mb-3">⬅️ Quay lại</a>
 <div class="container mt-4">
     <h2>@Model.Title (@Model.ReleaseYear)</h2>
 
@@ -14,6 +14,13 @@
         <div class="col-md-8">
             <p><strong>Quốc gia:</strong> @Model.Country</p>
             <p><strong>Mô tả:</strong> @Model.Description</p>
+            <p>
+                <strong>Thể loại:</strong>
+                @foreach (var g in ViewBag.Genres)
+                {
+                    <span class="badge bg-danger me-1">@g.GenreName</span>
+                }
+            </p>
             <p><strong>Loại phim:</strong> @(Model.IsSeries == true ? "📺 Phim bộ" : "🎬 Phim lẻ")</p>
         </div>
     </div>

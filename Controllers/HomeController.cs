@@ -1,28 +1,26 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
-using WebXemPhim.Models; // namespace chứa DataClasses1DataContext
+using WebXemPhim.Models;
 
 namespace WebXemPhim.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private DataClasses1DataContext db;
+        private const int PageSize = 20; // số phim mỗi trang
 
-        public HomeController()
+        public ActionResult Index(int page = 1)
         {
-            // Lấy connection string từ Web.config
-            string connString = System.Configuration.ConfigurationManager
-                .ConnectionStrings["MovieStreamingDBConnectionString"].ConnectionString;
-
-            db = new DataClasses1DataContext(connString);
-        }
-
-        public ActionResult Index()
-        {
+            var totalMovies = db.Movies.Count();
             var phimMoi = db.Movies
                 .OrderByDescending(m => m.CreatedAt)
-                .Take(12)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
                 .ToList();
+
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalMovies / PageSize);
+            ViewBag.CurrentPage = page;
+            ViewBag.Title = "Phim mới cập nhật";
 
             return View(phimMoi);
         }

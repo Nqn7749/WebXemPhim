@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Web;
 using System.Web.Mvc;
 using WebXemPhim.Models;
+using System.Data.Linq;
 
 namespace WebXemPhim.Controllers
 {
@@ -41,7 +44,7 @@ namespace WebXemPhim.Controllers
 
         // ➕ Thêm phim (POST)
         [HttpPost]
-        public ActionResult Create(Movie movie, int[] SelectedGenres)
+        public ActionResult Create(Movie movie, int[] SelectedGenres, HttpPostedFileBase PosterFile)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
 
@@ -58,6 +61,16 @@ namespace WebXemPhim.Controllers
                 ViewBag.Error = "Tên phim đã tồn tại.";
                 ViewBag.Genres = db.Genres.ToList();
                 return View();
+            }
+
+            if (PosterFile != null && PosterFile.ContentLength > 0)
+            {
+                string fileName = Guid.NewGuid() + System.IO.Path.GetExtension(PosterFile.FileName);
+                string path = Server.MapPath("~/Uploads/Posters/" + fileName);
+
+                PosterFile.SaveAs(path);
+
+                movie.PosterUrl = "/Uploads/Posters/" + fileName;
             }
 
             movie.CreatedAt = DateTime.Now;
@@ -100,18 +113,34 @@ namespace WebXemPhim.Controllers
 
         // ✏️ Sửa phim (POST)
         [HttpPost]
-        public ActionResult Edit(Movie updatedMovie, int[] SelectedGenres)
+        public ActionResult Edit(Movie updatedMovie, int[] SelectedGenres, HttpPostedFileBase PosterFile)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
 
             var movie = db.Movies.FirstOrDefault(m => m.MovieId == updatedMovie.MovieId);
             if (movie == null) return HttpNotFound();
 
+            string oldPoster = movie.PosterUrl;
+            // Upload ảnh mới nếu có
+            if (PosterFile != null && PosterFile.ContentLength > 0)
+            {
+                string fileName = Guid.NewGuid() + System.IO.Path.GetExtension(PosterFile.FileName);
+                string path = Server.MapPath("~/Uploads/Posters/" + fileName);
+
+                PosterFile.SaveAs(path);
+
+                movie.PosterUrl = "/Uploads/Posters/" + fileName;
+            }
+            else
+            {
+                movie.PosterUrl = oldPoster; 
+            }
+
             movie.Title = updatedMovie.Title;
             movie.Description = updatedMovie.Description;
             movie.ReleaseYear = updatedMovie.ReleaseYear;
             movie.Country = updatedMovie.Country;
-            movie.PosterUrl = updatedMovie.PosterUrl;
+            
             movie.TrailerUrl = updatedMovie.TrailerUrl;
             movie.IsSeries = updatedMovie.IsSeries;
             movie.MovieUrl = updatedMovie.MovieUrl;
@@ -173,6 +202,11 @@ namespace WebXemPhim.Controllers
         {
             var movie = db.Movies.FirstOrDefault(m => m.MovieId == id);
             if (movie == null) return HttpNotFound();
+
+            ViewBag.Genres = db.MovieGenres
+                .Where(mg => mg.MovieId == id)
+                .Select(mg => mg.Genre)
+                .ToList();
 
             if (movie.IsSeries == true)
             {

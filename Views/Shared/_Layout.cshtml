@@ -17,8 +17,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- 🔍 Thanh tìm kiếm bên trái -->
-            <form class="d-flex me-3" method="get" action="/Movies/Search">
+            <!-- 🔍 Thanh tìm kiếm -->
+            <form class="d-flex me-3" method="get" action="@Url.Action("Search", "UserMovies")">
                 <input class="form-control me-2" type="search" name="query" placeholder="Tìm phim..." aria-label="Search">
                 <button class="btn btn-outline-light" type="submit">🔍</button>
             </form>
@@ -27,23 +27,40 @@
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/Movies/Index?isSeries=false">🎬 Phim lẻ</a>
+                        <a class="nav-link" href="@Url.Action("Single", "UserMovies")">Phim lẻ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Movies/Index?isSeries=true">📺 Phim bộ</a>
+                        <a class="nav-link" href="@Url.Action("Series", "UserMovies")">Phim bộ</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Genres/Index">🎞️ Thể loại</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Countries/Index">🌍 Quốc gia</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Thể loại
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="genreDropdown">
+                            @if (ViewBag.Genres != null)
+                            {
+                                foreach (var genre in ViewBag.Genres as List<WebXemPhim.Models.Genre>)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("Genre", "UserMovies", new { id = genre.GenreId })">
+                                            @genre.GenreName
+                                        </a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li><span class="dropdown-item text-muted">Không có dữ liệu</span></li>
+                            }
+                        </ul>
                     </li>
                 </ul>
 
+                <!-- 👤 Menu người dùng -->
                 <ul class="navbar-nav ms-auto">
                     @if (Session["UserName"] != null)
                     {
-                        <!-- 👤 Dropdown cho người dùng -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
@@ -72,8 +89,6 @@
                         </li>
                     }
                 </ul>
-
-
             </div>
         </div>
     </nav>
@@ -85,7 +100,6 @@
             <p>&copy; @DateTime.Now.Year - WebXemPhim</p>
         </footer>
     </div>
-
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

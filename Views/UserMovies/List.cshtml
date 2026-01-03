@@ -5,6 +5,7 @@
 
 <div class="container mt-4">
     <h2 class="text-warning">@ViewBag.Title</h2>
+
     <div class="row">
         @foreach (var phim in Model)
         {
@@ -23,15 +24,18 @@
         }
     </div>
 
-    <!-- ✅ Phân trang -->
+    <!-- Phân trang -->
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             @for (int i = 1; i <= ViewBag.TotalPages; i++)
             {
                 <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Index", "Home", new { page = i })">@i</a>
-                </li>
-            }
+                    <a class="page-link" href="@Url.Action(
+                        ViewContext.RouteData.Values["action"].ToString(),
+                        "UserMovies",
+                        new { page = i, id = ViewContext.RouteData.Values["id"] })">@i</a>
+                    </li>
+                }
         </ul>
     </nav>
 </div>

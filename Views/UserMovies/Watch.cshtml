@@ -1,0 +1,105 @@
+﻿@model WebXemPhim.Models.Movie
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: #0d0d0d;
+        color: #fff;
+    }
+
+    .video-container {
+        width: 100%;
+        background: #000;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 25px;
+        box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .episode-item {
+        background: #1a1a1a;
+        color: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        text-align: center;
+        border: 1px solid #333;
+        transition: 0.2s;
+        display: block;
+        font-weight: 500;
+    }
+
+        .episode-item:hover {
+            background: #e50914;
+            border-color: #e50914;
+            color: #fff;
+        }
+
+    .episode-active {
+        background: #e50914 !important;
+        border-color: #e50914 !important;
+    }
+
+    .related-movie img {
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+        .related-movie img:hover {
+            transform: scale(1.05);
+        }
+</style>
+
+<div class="container mt-4">
+
+    <!-- VIDEO PLAYER -->
+    <div class="video-container">
+        <video class="w-100" controls>
+            <source src="@Model.MovieUrl" type="video/mp4" />
+        </video>
+    </div>
+
+    <!-- MOVIE TITLE -->
+    <h2 class="fw-bold">@Model.Title</h2>
+    <p class="text-secondary">@Model.Description</p>
+
+    <a href="@Url.Action("Detail", "UserMovies", new { id = Model.MovieId })"
+       class="btn btn-outline-light mb-4">⬅️ Quay lại</a>
+
+    <!-- EPISODE LIST -->
+    @if (Model.IsSeries == true && ViewBag.Episodes != null)
+    {
+        <h3 class="mt-4">📺 Danh sách tập</h3>
+        <div class="row">
+            @foreach (var ep in ViewBag.Episodes)
+            {
+                var active = (ep.EpisodeId == ViewBag.CurrentEpisodeId) ? "episode-active" : "";
+                <div class="col-6 col-md-3 mb-3">
+                    <a href="@Url.Action("Watch", "UserMovies", new { id = ep.EpisodeId })"
+                       class="episode-item @active">
+                        Tập @ep.EpisodeNumber
+                    </a>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- RELATED MOVIES -->
+    @if (ViewBag.RelatedMovies != null)
+    {
+        <h3 class="mt-5">🎬 Phim liên quan</h3>
+        <div class="row">
+            @foreach (var r in ViewBag.RelatedMovies)
+            {
+                <div class="col-6 col-md-3 mb-4 related-movie">
+                    <a href="@Url.Action("Detail", "UserMovies", new { id = r.MovieId })" class="text-light">
+                        <img src="@r.PosterUrl" class="img-fluid" />
+                        <p class="mt-2">@r.Title</p>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+
+</div>

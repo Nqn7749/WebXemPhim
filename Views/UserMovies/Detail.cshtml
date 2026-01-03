@@ -1,0 +1,55 @@
+﻿@model WebXemPhim.Models.Movie
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.PosterUrl" class="img-fluid rounded shadow" />
+        </div>
+
+        <div class="col-md-8">
+            <h1>@Model.Title</h1>
+            <p class="text-muted">@Model.ReleaseYear • @Model.Country</p>
+
+            <p>@Model.Description</p>
+
+            <a href="@Url.Action("Watch", "UserMovies", new { id = Model.MovieId })"
+               class="btn btn-danger btn-lg mt-3">
+                ▶️ Xem phim
+            </a>
+        </div>
+    </div>
+
+    @if (Model.IsSeries == true)
+    {
+        <h3 class="mt-5">📺 Danh sách tập</h3>
+        <div class="row">
+            @foreach (var ep in ViewBag.Episodes)
+            {
+                <div class="col-6 col-md-3 mb-3">
+                    <a href="@Url.Action("Watch", "UserMovies", new { id = ep.EpisodeId })"
+                       class="btn btn-outline-primary w-100">
+                        Tập @ep.EpisodeNumber
+                    </a>
+                </div>
+            }
+        </div>
+    }
+
+    <h3 class="mt-5">🎬 Phim liên quan</h3>
+    <div class="row">
+        @foreach (var r in ViewBag.RelatedMovies)
+        {
+            <div class="col-6 col-md-3 mb-4">
+                <a href="@Url.Action("Detail", "UserMovies", new { id = r.MovieId })">
+                    <img src="@r.PosterUrl" class="img-fluid rounded" />
+                    <p class="mt-2">@r.Title</p>
+                </a>
+            </div>
+        }
+    </div>
+
+</div>
