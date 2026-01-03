@@ -1,0 +1,38 @@
+﻿@model List<WebXemPhim.Models.Movie>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>📜 Lịch sử xem phim</h2>
+    <div class="row">
+        @if (Model.Count == 0)
+        {
+            <p class="text-muted">Bạn chưa xem phim nào.</p>
+        }
+        else
+        {
+            foreach (var phim in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100 shadow-sm bg-dark text-light">
+                        <img src="@phim.PosterUrl" class="card-img-top" alt="@phim.Title"
+                             style="height:300px;object-fit:cover;" />
+                        <div class="card-body">
+                            <h5 class="card-title">@phim.Title (@phim.ReleaseYear)</h5>
+                            <a href="@Url.Action("Detail", "UserMovies", new { id = phim.MovieId })"
+                               class="btn btn-sm btn-danger">▶ Xem lại</a>
+
+                            <!-- ✅ Nút xóa -->
+                            @using (Html.BeginForm("Remove", "History", FormMethod.Post))
+                            {
+                                @Html.Hidden("movieId", phim.MovieId)
+                                <button type="submit" class="btn btn-sm btn-outline-light mt-2">❌ Xóa</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
