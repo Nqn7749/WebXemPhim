@@ -352,7 +352,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_Comment", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_Comment", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
 		public Movie Movie
 		{
 			get
@@ -591,7 +591,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_Episode", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_Episode", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
 		public Movie Movie
 		{
 			get
@@ -795,7 +795,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_Favorite", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_Favorite", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
 		public Movie Movie
 		{
 			get
@@ -1077,7 +1077,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_MovieGenre", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_MovieGenre", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
 		public Movie Movie
 		{
 			get
@@ -1317,7 +1317,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_Rating", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_Rating", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
 		public Movie Movie
 		{
 			get
@@ -2191,7 +2191,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_WatchHistory", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_WatchHistory", Storage="_Movie", ThisKey="MovieId", OtherKey="MovieId", IsForeignKey=true)]
 		public Movie Movie
 		{
 			get
@@ -2521,7 +2521,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_Comment", Storage="_Comments", ThisKey="MovieId", OtherKey="MovieId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_Comment", Storage="_Comments", ThisKey="MovieId", OtherKey="MovieId")]
 		public EntitySet<Comment> Comments
 		{
 			get
@@ -2534,7 +2534,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_Episode", Storage="_Episodes", ThisKey="MovieId", OtherKey="MovieId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_Episode", Storage="_Episodes", ThisKey="MovieId", OtherKey="MovieId")]
 		public EntitySet<Episode> Episodes
 		{
 			get
@@ -2547,7 +2547,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_Favorite", Storage="_Favorites", ThisKey="MovieId", OtherKey="MovieId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_Favorite", Storage="_Favorites", ThisKey="MovieId", OtherKey="MovieId")]
 		public EntitySet<Favorite> Favorites
 		{
 			get
@@ -2560,7 +2560,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_MovieGenre", Storage="_MovieGenres", ThisKey="MovieId", OtherKey="MovieId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_MovieGenre", Storage="_MovieGenres", ThisKey="MovieId", OtherKey="MovieId")]
 		public EntitySet<MovieGenre> MovieGenres
 		{
 			get
@@ -2573,7 +2573,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_Rating", Storage="_Ratings", ThisKey="MovieId", OtherKey="MovieId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_Rating", Storage="_Ratings", ThisKey="MovieId", OtherKey="MovieId")]
 		public EntitySet<Rating> Ratings
 		{
 			get
@@ -2586,7 +2586,7 @@ namespace WebXemPhim.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_WatchHistory", Storage="_WatchHistories", ThisKey="MovieId", OtherKey="MovieId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movie_WatchHistory", Storage="_WatchHistories", ThisKey="MovieId", OtherKey="MovieId")]
 		public EntitySet<WatchHistory> WatchHistories
 		{
 			get

@@ -17,6 +17,7 @@
         <div class="alert alert-danger">@ViewBag.Error</div>
     }
 
+    <a href="@Url.Action("Dashboard", "Admin")" class="btn btn-secondary mb-3">⬅️ Quay lại</a>
     <a href="@Url.Action("Create", "Genres")" class="btn btn-success mb-3">➕ Thêm thể loại</a>
 
     @if (Model != null && Model.Any())

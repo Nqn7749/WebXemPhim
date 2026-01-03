@@ -7,7 +7,7 @@
       <Column Name="Content" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="User_Comment" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
-      <Association Name="Movy_Comment" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+      <Association Name="Movie_Comment" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Episodes" Member="Episodes">
@@ -19,7 +19,7 @@
       <Column Name="VideoUrl" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="Duration" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Episode_WatchHistory" Member="WatchHistories" ThisKey="EpisodeId" OtherKey="EpisodeId" Type="WatchHistory" />
-      <Association Name="Movy_Episode" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+      <Association Name="Movie_Episode" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Favorites" Member="Favorites">
@@ -28,7 +28,7 @@
       <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="User_Favorite" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
-      <Association Name="Movy_Favorite" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+      <Association Name="Movie_Favorite" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Genres" Member="Genres">
@@ -43,7 +43,7 @@
       <Column Name="MovieId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="GenreId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Genre_MovieGenre" Member="Genre" ThisKey="GenreId" OtherKey="GenreId" Type="Genre" IsForeignKey="true" />
-      <Association Name="Movy_MovieGenre" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+      <Association Name="Movie_MovieGenre" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Ratings" Member="Ratings">
@@ -54,7 +54,7 @@
       <Column Name="Rating" Member="Rating1" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="User_Rating" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
-      <Association Name="Movy_Rating" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+      <Association Name="Movie_Rating" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Subscriptions" Member="Subscriptions">
@@ -94,7 +94,7 @@
       <Column Name="LastWatched" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Episode_WatchHistory" Member="Episode" ThisKey="EpisodeId" OtherKey="EpisodeId" Type="Episode" IsForeignKey="true" />
       <Association Name="User_WatchHistory" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
-      <Association Name="Movy_WatchHistory" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
+      <Association Name="Movie_WatchHistory" Member="Movie" ThisKey="MovieId" OtherKey="MovieId" Type="Movie" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Movies" Member="Movies">
@@ -109,12 +109,12 @@
       <Column Name="IsSeries" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="MovieUrl" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Association Name="Movy_Comment" Member="Comments" ThisKey="MovieId" OtherKey="MovieId" Type="Comment" />
-      <Association Name="Movy_Episode" Member="Episodes" ThisKey="MovieId" OtherKey="MovieId" Type="Episode" />
-      <Association Name="Movy_Favorite" Member="Favorites" ThisKey="MovieId" OtherKey="MovieId" Type="Favorite" />
-      <Association Name="Movy_MovieGenre" Member="MovieGenres" ThisKey="MovieId" OtherKey="MovieId" Type="MovieGenre" />
-      <Association Name="Movy_Rating" Member="Ratings" ThisKey="MovieId" OtherKey="MovieId" Type="Rating" />
-      <Association Name="Movy_WatchHistory" Member="WatchHistories" ThisKey="MovieId" OtherKey="MovieId" Type="WatchHistory" />
+      <Association Name="Movie_Comment" Member="Comments" ThisKey="MovieId" OtherKey="MovieId" Type="Comment" />
+      <Association Name="Movie_Episode" Member="Episodes" ThisKey="MovieId" OtherKey="MovieId" Type="Episode" />
+      <Association Name="Movie_Favorite" Member="Favorites" ThisKey="MovieId" OtherKey="MovieId" Type="Favorite" />
+      <Association Name="Movie_MovieGenre" Member="MovieGenres" ThisKey="MovieId" OtherKey="MovieId" Type="MovieGenre" />
+      <Association Name="Movie_Rating" Member="Ratings" ThisKey="MovieId" OtherKey="MovieId" Type="Rating" />
+      <Association Name="Movie_WatchHistory" Member="WatchHistories" ThisKey="MovieId" OtherKey="MovieId" Type="WatchHistory" />
     </Type>
   </Table>
 </Database>

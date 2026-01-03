@@ -12,7 +12,7 @@
         <div class="alert alert-danger">@ViewBag.Error</div>
     }
 
-    @using (Html.BeginForm("Edit", "Movies", FormMethod.Post))
+    @using (Html.BeginForm("Edit", "Movies", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.HiddenFor(m => m.MovieId)
 
@@ -37,10 +37,27 @@
         </div>
 
         <div class="mb-3">
-            <label>Poster URL</label>
-            @Html.TextBoxFor(m => m.PosterUrl, new { @class = "form-control" })
+            <label>Thể loại</label>
+            @foreach (var g in ViewBag.Genres as List<WebXemPhim.Models.Genre>)
+            {
+                bool isChecked = ((int[])ViewBag.SelectedGenres).Contains(g.GenreId);
+
+                <div class="form-check">
+                    <input type="checkbox" name="SelectedGenres" value="@g.GenreId"
+                           class="form-check-input" @(isChecked ? "checked" : "") />
+                    <label class="form-check-label">@g.GenreName</label>
+                </div>
+            }
         </div>
 
+        <div class="form-group">
+            <label>Poster</label>
+            <input type="file" name="PosterFile" class="form-control" accept="image/*" />
+        </div>
+        if (!string.IsNullOrEmpty(Model.PosterUrl))
+        {
+            <img src="@Model.PosterUrl" class="img-thumbnail mb-2" style="max-width:200px" />
+        }
         <div class="mb-3">
             <label>Trailer URL</label>
             @Html.TextBoxFor(m => m.TrailerUrl, new { @class = "form-control" })
