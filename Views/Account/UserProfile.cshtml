@@ -4,90 +4,233 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-4">
-    <h2>👤 Thông tin tài khoản</h2>
+<style>
+    /* 1. Thiết lập font và nền */
+    body {
+        background-color: #0f172a !important;
+        font-family: 'Poppins', sans-serif;
+    }
 
-    <dl class="row">
-        <dt class="col-sm-3">Tên đăng nhập</dt>
-        <dd class="col-sm-9">@Model.FullName</dd>
+    /* 2. Profile Card */
+    .profile-container {
+        max-width: 800px;
+        margin: 40px auto;
+    }
 
-        <dt class="col-sm-3">Email</dt>
-        <dd class="col-sm-9">@Model.Email</dd>
+    .profile-card {
+        background: #1e293b; /* Màu xanh slate đậm hơn nền */
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
 
-        <dt class="col-sm-3">Họ tên</dt>
-        <dd class="col-sm-9">@Model.FullName</dd>
+    .profile-header {
+        background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+        padding: 40px;
+        text-align: center;
+        color: white;
+    }
 
-        <dt class="col-sm-3">Vai trò</dt>
-        <dd class="col-sm-9">@Model.Role</dd>
-    </dl>
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        color: #e50914;
+        font-size: 3rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
 
-    <!-- Nút mở modal -->
-    <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editProfileModal">✏️ Sửa thông tin</a>
-    <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">🔑 Đổi mật khẩu</a>
+    /* 3. Danh sách thông tin */
+    .info-list {
+        padding: 30px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: background 0.3s;
+    }
+
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+    .info-icon {
+        width: 45px;
+        height: 45px;
+        background: rgba(229, 9, 20, 0.1);
+        color: #e50914;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        font-size: 1.2rem;
+    }
+
+    .info-label {
+        color: #94a3b8;
+        font-size: 0.8rem;
+        margin-bottom: 2px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .info-value {
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    /* 4. Đảm bảo chữ trong Modal rõ nét */
+    .modal-content {
+        border-radius: 20px;
+        border: none;
+        overflow: hidden;
+    }
+
+    .modal-header {
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .modal-title {
+        color: #0f172a;
+        font-weight: 700;
+    }
+
+    /* QUAN TRỌNG: Chống lỗi tàng hình chữ trong Modal */
+    .modal-body label {
+        color: #475569;
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
+
+    .modal-body .form-control {
+        background: #ffffff !important;
+        color: #1e293b !important; /* Ép chữ màu đen đậm */
+        border: 1px solid #cbd5e1 !important;
+        padding: 12px;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="avatar-circle">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <h3 class="mb-1 fw-bold">@Model.FullName</h3>
+            <span class="badge rounded-pill bg-white text-danger px-3 py-2 fw-bold">
+                <i class="fa-solid fa-shield-halved me-1"></i> @Model.Role
+            </span>
+        </div>
+
+        <div class="info-list">
+            <div class="info-item">
+                <div class="info-icon"><i class="fa-solid fa-signature"></i></div>
+                <div>
+                    <div class="info-label">Họ và tên</div>
+                    <div class="info-value">@Model.FullName</div>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div>
+                    <div class="info-label">Địa chỉ Email</div>
+                    <div class="info-value">@Model.Email</div>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon"><i class="fa-solid fa-id-badge"></i></div>
+                <div>
+                    <div class="info-label">ID Tài khoản</div>
+                    <div class="info-value">#@Model.UserId</div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button class="btn btn-danger flex-fill py-2 fw-bold rounded-pill" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                    <i class="fa-solid fa-pen-to-square me-2"></i>SỬA THÔNG TIN
+                </button>
+                <button class="btn btn-outline-light flex-fill py-2 fw-bold rounded-pill" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                    <i class="fa-solid fa-key me-2"></i>ĐỔI MẬT KHẨU
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Modal chỉnh sửa thông tin -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="editProfileModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             @using (Html.BeginForm("EditProfile", "Account", FormMethod.Post))
             {
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editProfileLabel">✏️ Sửa thông tin tài khoản</h5>
+                    <h5 class="modal-title"><i class="fa-solid fa-user-pen me-2"></i>Cập nhật thông tin</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Hidden để giữ UserName -->
                     @Html.HiddenFor(m => m.UserId)
-
                     <div class="mb-3">
-                        <label>Email</label>
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        <label>Địa chỉ Email</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Nhập email mới" })
                     </div>
                     <div class="mb-3">
-                        <label>Họ tên</label>
-                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                        <label>Họ và tên</label>
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "Nhập họ tên mới" })
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">💾 Lưu</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">↩️ Hủy</button>
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">HỦY</button>
+                    <button type="submit" class="btn btn-danger rounded-pill px-4">LƯU THAY ĐỔI</button>
                 </div>
             }
         </div>
     </div>
 </div>
 
-<!-- Modal đổi mật khẩu -->
-<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post))
             {
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changePasswordLabel">🔑 Đổi mật khẩu</h5>
+                    <h5 class="modal-title"><i class="fa-solid fa-lock me-2"></i>Đổi mật khẩu bảo mật</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label>Mật khẩu hiện tại</label>
-                        <input type="password" name="CurrentPassword" class="form-control" required />
+                        <input type="password" name="CurrentPassword" class="form-control" placeholder="••••••••" required />
                     </div>
+                    <hr class="my-3 opacity-10">
                     <div class="mb-3">
                         <label>Mật khẩu mới</label>
-                        <input type="password" name="NewPassword" class="form-control" required />
+                        <input type="password" name="NewPassword" class="form-control" placeholder="" required />
                     </div>
                     <div class="mb-3">
                         <label>Xác nhận mật khẩu mới</label>
-                        <input type="password" name="ConfirmPassword" class="form-control" required />
+                        <input type="password" name="ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu mới" required />
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">💾 Đổi mật khẩu</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">↩️ Hủy</button>
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">HỦY</button>
+                    <button type="submit" class="btn btn-danger rounded-pill px-4">CẬP NHẬT MẬT KHẨU</button>
                 </div>
             }
         </div>
     </div>
 </div>
-

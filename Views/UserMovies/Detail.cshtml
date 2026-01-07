@@ -1,55 +1,177 @@
 ﻿@model WebXemPhim.Models.Movie
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.Title;
 }
 
-<div class="container mt-4">
+<style>
+    /* 1. Nền tối Midnight & Font Poppins */
+    body {
+        background-color: #0f172a !important;
+        font-family: 'Poppins', sans-serif;
+        color: #f8fafc;
+    }
 
+    /* 2. Banner nền mờ (Backdrop) lấy từ PosterUrl */
+    .movie-backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 600px;
+        background-image: url('@Model.PosterUrl');
+        background-size: cover;
+        background-position: center;
+        filter: blur(40px) brightness(0.3);
+        z-index: -1;
+    }
+
+    /* 3. Poster & Info Layout */
+    .detail-container {
+        margin-top: 50px;
+        position: relative;
+    }
+
+    .poster-img {
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .movie-info-panel {
+        padding-left: 20px;
+    }
+
+    .movie-title-detail {
+        font-size: 3.5rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.1;
+        margin-bottom: 15px;
+        text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    .meta-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 5px 15px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-right: 10px;
+        backdrop-filter: blur(5px);
+    }
+
+    /* 4. Tập phim (Episodes) */
+    .episode-btn {
+        background: #1e293b;
+        color: white;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        padding: 12px;
+        transition: all 0.3s;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .episode-btn:hover {
+        background: #e50914;
+        border-color: #e50914;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+    }
+
+    /* 5. Phim liên quan (Related) */
+    .related-card {
+        background: #1e293b;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: 0.3s;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .related-card:hover {
+        transform: scale(1.05);
+        border-color: #e50914;
+    }
+</style>
+
+<div class="movie-backdrop"></div>
+
+<div class="container detail-container">
     <div class="row">
-        <div class="col-md-4">
-            <img src="@Model.PosterUrl" class="img-fluid rounded shadow" />
+        <div class="col-md-4 text-center mb-4">
+            <img src="@Model.PosterUrl" class="img-fluid poster-img" alt="@Model.Title" />
         </div>
 
-        <div class="col-md-8">
-            <h1>@Model.Title</h1>
-            <p class="text-muted">@Model.ReleaseYear • @Model.Country</p>
+        <div class="col-md-8 movie-info-panel">
+            <div class="mb-3 d-flex flex-wrap gap-2">
+                @* Đã loại bỏ mục Rating theo yêu cầu *@
+                <span class="meta-item"><i class="fa-solid fa-calendar-days me-1"></i> @Model.ReleaseYear</span>
+                <span class="meta-item"><i class="fa-solid fa-earth-asia me-1"></i> @Model.Country</span>
+                @if (Model.IsSeries == true)
+                {<span class="meta-item bg-danger text-white">PHIM BỘ</span>}
+            </div>
 
-            <p>@Model.Description</p>
+            <h1 class="movie-title-detail text-white">@Model.Title</h1>
 
-            <a href="@Url.Action("Watch", "UserMovies", new { id = Model.MovieId })"
-               class="btn btn-danger btn-lg mt-3">
-                ▶️ Xem phim
-            </a>
+            <p class="fs-5 text-light opacity-75 mb-4" style="line-height: 1.8; text-align: justify;">
+                @Model.Description
+            </p>
+
+            <div class="d-flex gap-3">
+                <a href="@Url.Action("Watch", "UserMovies", new { id = Model.MovieId })"
+                   class="btn btn-danger btn-lg rounded-pill px-5 py-3 fw-bold shadow">
+                    <i class="fa-solid fa-play me-2"></i> XEM PHIM NGAY
+                </a>
+                <button class="btn btn-outline-light btn-lg rounded-pill px-4">
+                    <i class="fa-solid fa-heart me-2 text-danger"></i> YÊU THÍCH
+                </button>
+            </div>
         </div>
     </div>
 
-    @if (Model.IsSeries == true)
+    @* PHẦN DANH SÁCH TẬP PHIM (Dành cho phim bộ) *@
+    @if (Model.IsSeries == true && ViewBag.Episodes != null)
     {
-        <h3 class="mt-5">📺 Danh sách tập</h3>
-        <div class="row">
-            @foreach (var ep in ViewBag.Episodes)
-            {
-                <div class="col-6 col-md-3 mb-3">
-                    <a href="@Url.Action("Watch", "UserMovies", new { id = ep.EpisodeId })"
-                       class="btn btn-outline-primary w-100">
-                        Tập @ep.EpisodeNumber
-                    </a>
-                </div>
-            }
+        <div class="mt-5 pt-5 border-top border-secondary">
+            <h3 class="fw-bold mb-4"><i class="fa-solid fa-list-ol text-danger me-2"></i>DANH SÁCH TẬP PHIM</h3>
+            <div class="row g-3">
+                @foreach (var ep in ViewBag.Episodes)
+                {
+                    <div class="col-6 col-md-2 col-lg-1">
+                        <a href="@Url.Action("Watch", "UserMovies", new { id = ep.EpisodeId })" class="episode-btn">
+                            @ep.EpisodeNumber
+                        </a>
+                    </div>
+                }
+            </div>
         </div>
     }
 
-    <h3 class="mt-5">🎬 Phim liên quan</h3>
-    <div class="row">
-        @foreach (var r in ViewBag.RelatedMovies)
-        {
-            <div class="col-6 col-md-3 mb-4">
-                <a href="@Url.Action("Detail", "UserMovies", new { id = r.MovieId })">
-                    <img src="@r.PosterUrl" class="img-fluid rounded" />
-                    <p class="mt-2">@r.Title</p>
-                </a>
-            </div>
-        }
+    @* PHẦN PHIM LIÊN QUAN *@
+    <div class="mt-5 pt-5 border-top border-secondary mb-5">
+        <h3 class="fw-bold mb-4"><i class="fa-solid fa-clapperboard text-danger me-2"></i>PHIM LIÊN QUAN</h3>
+        <div class="row g-4">
+            @if (ViewBag.RelatedMovies != null)
+            {
+                foreach (var r in ViewBag.RelatedMovies)
+                {
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <div class="related-card h-100 shadow-sm">
+                            <a href="@Url.Action("Detail", "UserMovies", new { id = r.MovieId })" class="text-decoration-none">
+                                <img src="@r.PosterUrl" class="img-fluid w-100" style="height: 220px; object-fit: cover;" />
+                                <div class="p-2 text-center">
+                                    <p class="text-white small fw-bold mb-0 text-truncate">@r.Title</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
     </div>
-
 </div>
