@@ -3,28 +3,154 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5" style="max-width: 500px;">
-    <h3 class="text-center mb-4">📝 Đăng ký tài khoản</h3>
-
-    @if (ViewBag.Error != null)
-    {
-        <div class="alert alert-danger">@ViewBag.Error</div>
+<style>
+    /* 1. Thiết lập nền xanh Midnight đồng bộ */
+    body {
+        background-color: #0f172a !important;
     }
 
-    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-    {
-        <div class="form-group mb-3">
-            <label>Họ tên</label>
-            @Html.TextBox("fullName", null, new { @class = "form-control", placeholder = "Nhập họ tên" })
-        </div>
-        <div class="form-group mb-3">
-            <label>Email</label>
-            @Html.TextBox("email", null, new { @class = "form-control", placeholder = "Nhập email" })
-        </div>
-        <div class="form-group mb-3">
-            <label>Mật khẩu</label>
-            @Html.Password("password", new { @class = "form-control", placeholder = "Nhập mật khẩu" })
-        </div>
-        <button type="submit" class="btn btn-success w-100">Đăng ký</button>
+    /* 2. Cấu trúc Auth Card trắng */
+    .auth-container {
+        min-height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Poppins', sans-serif;
+        padding: 20px 0;
     }
+
+    .auth-card {
+        background: #ffffff;
+        width: 100%;
+        max-width: 480px;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        text-align: center;
+    }
+
+        /* 3. Sửa lỗi tàng hình chữ - Ép chữ màu đen đậm */
+        .auth-card .form-control {
+            background-color: #f8fafc !important;
+            color: #1e293b !important; /* CHỮ MÀU ĐEN ĐẬM */
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px !important;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+        }
+
+            .auth-card .form-control:focus {
+                border-color: #e50914 !important;
+                box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1) !important;
+                background-color: #ffffff !important;
+            }
+
+    /* 4. Thành phần giao diện */
+    .auth-icon {
+        font-size: 3.5rem;
+        color: #e50914;
+        margin-bottom: 10px;
+    }
+
+    .auth-title {
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 5px;
+        letter-spacing: -0.5px;
+    }
+
+    .input-group-text {
+        background: #f8fafc !important;
+        border-color: #cbd5e1 !important;
+        color: #64748b !important;
+        border-radius: 10px 0 0 10px !important;
+    }
+
+    .border-start-0 {
+        border-radius: 0 10px 10px 0 !important;
+    }
+
+    .btn-register {
+        background-color: #e50914 !important;
+        border: none !important;
+        color: white !important;
+        font-weight: 600;
+        padding: 12px;
+        border-radius: 30px !important;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+        .btn-register:hover {
+            background-color: #b20710 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        }
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-icon">
+            <i class="fa-solid fa-user-plus"></i>
+        </div>
+
+        <h3 class="auth-title">TẠO TÀI KHOẢN</h3>
+        <p class="text-muted small mb-4">Gia nhập cộng đồng MOVIEPRO ngay hôm nay</p>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger py-2 small border-0 mb-4">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i> @ViewBag.Error
+            </div>
+        }
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "text-start" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label small fw-bold text-dark">Họ và tên</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+                    <input type="text" name="fullName" class="form-control border-start-0"
+                           placeholder="Nhập họ tên của bạn" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small fw-bold text-dark">Email liên hệ</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-envelope"></i>
+                    </span>
+                    <input type="email" name="email" class="form-control border-start-0"
+                           placeholder="example@mail.com" required>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label small fw-bold text-dark">Mật khẩu bảo mật</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-lock"></i>
+                    </span>
+                    <input type="password" name="password" class="form-control border-start-0"
+                           placeholder="Tối thiểu 6 ký tự" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-register w-100">
+                ĐĂNG KÝ THÀNH VIÊN
+            </button>
+
+            <div class="mt-4 text-center">
+                <span class="text-muted small">Đã có tài khoản?</span>
+                <a href="@Url.Action("Login", "Account")" class="text-danger fw-bold text-decoration-none small ms-1">Đăng nhập ngay</a>
+            </div>
+        }
+    </div>
 </div>

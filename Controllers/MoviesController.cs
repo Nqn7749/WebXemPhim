@@ -111,27 +111,28 @@ namespace WebXemPhim.Controllers
             var movie = db.Movies.FirstOrDefault(m => m.MovieId == updatedMovie.MovieId);
             if (movie == null) return HttpNotFound();
 
-            string oldPoster = movie.PosterUrl;
-            // Upload ảnh mới nếu có
-            if (PosterFile != null && PosterFile.ContentLength > 0)
-            {
-                string fileName = Guid.NewGuid() + System.IO.Path.GetExtension(PosterFile.FileName);
-                string path = Server.MapPath("~/Uploads/Posters/" + fileName);
 
-                PosterFile.SaveAs(path);
+            //string oldPoster = movie.PosterUrl;
+            //// Upload ảnh mới nếu có
+            //if (PosterFile != null && PosterFile.ContentLength > 0)
+            //{
+            //    string fileName = Guid.NewGuid() + System.IO.Path.GetExtension(PosterFile.FileName);
+            //    string path = Server.MapPath("~/Uploads/Posters/" + fileName);
 
-                movie.PosterUrl = "/Uploads/Posters/" + fileName;
-            }
-            else
-            {
-                movie.PosterUrl = oldPoster; 
-            }
+            //    PosterFile.SaveAs(path);
+
+            //    movie.PosterUrl = "/Uploads/Posters/" + fileName;
+            //}
+            //else
+            //{
+            //    movie.PosterUrl = oldPoster; 
+            //}
 
             movie.Title = updatedMovie.Title;
             movie.Description = updatedMovie.Description;
             movie.ReleaseYear = updatedMovie.ReleaseYear;
             movie.Country = updatedMovie.Country;
-            
+            movie.PosterUrl = updatedMovie.PosterUrl;
             movie.TrailerUrl = updatedMovie.TrailerUrl;
             movie.IsSeries = updatedMovie.IsSeries;
             movie.MovieUrl = updatedMovie.MovieUrl;

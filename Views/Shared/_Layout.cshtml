@@ -1,31 +1,31 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - WebXemPhim</title>
+
+    @*<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">*@
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #141414 !important; border-bottom: 1px solid #e50914;">
         <div class="container">
-            @Html.ActionLink("WebXemPhim", "Index", "Home", null, new { @class = "navbar-brand" })
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                <i class="fa-solid fa-film me-2"></i>MOVIEPRO
+            </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- 🔍 Thanh tìm kiếm -->
-            <form class="d-flex me-3" method="get" action="@Url.Action("Search", "UserMovies")">
-                <input class="form-control me-2" type="search" name="query" placeholder="Tìm phim..." aria-label="Search">
-                <button class="btn btn-outline-light" type="submit">Tìm</button>
-            </form>
-
-            <!-- 📋 Menu điều hướng -->
             <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Single", "UserMovies")">Phim lẻ</a>
                     </li>
@@ -33,49 +33,52 @@
                         <a class="nav-link" href="@Url.Action("Series", "UserMovies")">Phim bộ</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" data-bs-toggle="dropdown">
                             Thể loại
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="genreDropdown">
+                        <ul class="dropdown-menu dropdown-menu-dark">
                             @if (ViewBag.Genres != null)
                             {
                                 foreach (var genre in ViewBag.Genres as List<WebXemPhim.Models.Genre>)
                                 {
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("Genre", "UserMovies", new { id = genre.GenreId })">
-                                            @genre.GenreName
-                                        </a>
-                                    </li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Genre", "UserMovies", new { id = genre.GenreId })">@genre.GenreName</a></li>
                                 }
                             }
                             else
                             {
-                                <li><span class="dropdown-item text-muted">Không có dữ liệu</span></li>
+                                <li><span class="dropdown-item text-muted">Đang tải...</span></li>
                             }
                         </ul>
                     </li>
                 </ul>
 
-                <!-- 👤 Menu người dùng -->
+                <form class="d-flex mx-lg-4 my-2 my-lg-0" method="get" action="@Url.Action("Search", "UserMovies")" style="flex-grow: 1; max-width: 400px;">
+                    <div class="input-group">
+                        <input class="form-control" type="search" name="query" placeholder="Tìm tên phim, diễn viên..." aria-label="Search">
+                        <button class="btn btn-danger" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+
                 <ul class="navbar-nav ms-auto">
                     @if (Session["UserName"] != null)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                👋 Xin chào, @Session["UserName"]
+                            <a class="nav-link dropdown-toggle active text-white" href="#" id="userDropdown" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-circle-user me-1"></i> @Session["UserName"]
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="@Url.Action("Index", "Favorites")"> Yêu thích</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Index", "History")"> Lịch sử xem</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("UserProfile", "Account")"> Thông tin tài khoản</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "Favorites")"><i class="fa-solid fa-heart me-2 text-danger"></i>Yêu thích</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "History")"><i class="fa-solid fa-clock-rotate-left me-2"></i>Lịch sử</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("UserProfile", "Account")"><i class="fa-solid fa-user-gear me-2"></i>Tài khoản</a></li>
                                 @if (Session["UserRole"]?.ToString() == "Admin")
                                 {
-                                    <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Admin")"> Quản trị</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-warning" href="@Url.Action("Dashboard", "Admin")"><i class="fa-solid fa-user-shield me-2"></i>Quản trị viên</a></li>
                                 }
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item text-danger" href="@Url.Action("Logout", "Account")"> Đăng xuất</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="@Url.Action("Logout", "Account")"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
                             </ul>
                         </li>
                     }
@@ -85,7 +88,7 @@
                             <a class="nav-link" href="@Url.Action("Login", "Account")">Đăng nhập</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Register", "Account")">Đăng ký</a>
+                            <a class="btn btn-danger btn-sm ms-lg-2 px-3 mt-1" href="@Url.Action("Register", "Account")">Đăng ký</a>
                         </li>
                     }
                 </ul>
@@ -95,9 +98,14 @@
 
     <div class="container body-content mt-4">
         @RenderBody()
-        <hr />
-        <footer class="text-center text-muted mb-3">
-            <p>&copy; @DateTime.Now.Year - WebXemPhim</p>
+
+        <footer class="mt-5 mb-4 text-center">
+            <hr class="bg-secondary" />
+            <p class="text-muted">&copy; @DateTime.Now.Year - <strong>WebXemPhim 67PM1</strong> - PLN & Team 22</p>
+            <div class="footer-links">
+                <small><a href="#" class="text-muted text-decoration-none mx-2">Chính sách</a></small>
+                <small><a href="#" class="text-muted text-decoration-none mx-2">Liên hệ</a></small>
+            </div>
         </footer>
     </div>
 

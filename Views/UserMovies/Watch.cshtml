@@ -8,7 +8,9 @@
         background: #0d0d0d;
         color: #fff;
     }
-
+    a {
+        text-decoration: none !important;
+    }
     .video-container {
         width: 100%;
         background: #000;
@@ -56,7 +58,7 @@
     <!-- VIDEO PLAYER -->
     <div class="video-container">
         <video class="w-100" controls>
-            <source src="@Model.MovieUrl" type="video/mp4" />
+            <source src="@(ViewBag.VideoUrl ?? Model.MovieUrl)" type="video/mp4" />
         </video>
     </div>
 

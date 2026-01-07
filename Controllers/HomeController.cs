@@ -11,6 +11,15 @@ namespace WebXemPhim.Controllers
 
         public ActionResult Index(int page = 1)
         {
+
+
+            //var slideshowMovies = db.Movies
+            //    .OrderByDescending(m => m.CreatedAt)
+            //    .Take(3)
+            //    .ToList();
+            //ViewBag.LatestMovies = slideshowMovies;
+
+
             var totalMovies = db.Movies.Count();
             var phimMoi = db.Movies
                 .OrderByDescending(m => m.CreatedAt)

@@ -47,7 +47,8 @@
 
         <div class="form-group">
             <label>Poster</label>
-            <input type="file" name="PosterFile" class="form-control" accept="image/*" />
+            @*<input type="file" name="PosterFile" class="form-control" accept="image/*" />*@
+            @Html.TextBoxFor(m => m.PosterUrl, new { @class = "form-control", placeholder = "Nhập link ảnh poster " })
         </div>
 
         <div class="mb-3">
